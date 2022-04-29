@@ -3,21 +3,9 @@ package main
 import (
 	"eve-fit-bot/pkg/db"
 	"eve-fit-bot/pkg/util"
+	"eve-fit-bot/pkg/util/keyboard"
 	telegramBotApi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log"
-)
-
-var numericKeyboard = telegramBotApi.NewReplyKeyboard(
-	telegramBotApi.NewKeyboardButtonRow(
-		telegramBotApi.NewKeyboardButton("1"),
-		telegramBotApi.NewKeyboardButton("2"),
-		telegramBotApi.NewKeyboardButton("3"),
-	),
-	telegramBotApi.NewKeyboardButtonRow(
-		telegramBotApi.NewKeyboardButton("4"),
-		telegramBotApi.NewKeyboardButton("5"),
-		telegramBotApi.NewKeyboardButton("6"),
-	),
 )
 
 func main() {
@@ -58,7 +46,15 @@ func main() {
 
 		// Create a new MessageConfig. We don't have text yet,
 		// so we leave it empty.
+		numericKeyboard := keyboard.New([][]string{
+			{"sky", "ocean"},
+			{"red", "blue"},
+		})
 
+		numericKeyboard1 := keyboard.New([][]string{
+			{"5", "12"},
+			{"2", "5"},
+		})
 		// Extract the command from the Message.
 		switch update.Message.Command() {
 		case "help":
@@ -66,9 +62,12 @@ func main() {
 		case "open":
 			msg.Text = "Opening keyboard"
 			msg.ReplyMarkup = numericKeyboard
+		case "open1":
+			msg.Text = "Opening keyboard1"
+			msg.ReplyMarkup = numericKeyboard1
 		case "close":
 			msg.Text = "Closing keyboard"
-			msg.ReplyMarkup = telegramBotApi.NewRemoveKeyboard(true)
+			msg.ReplyMarkup = keyboard.Close()
 		case "status":
 			msg.Text = "I'm ok."
 		default:
