@@ -1,8 +1,8 @@
 package db
 
 import (
-	"eve-fit-bot/pkg/models"
-	"eve-fit-bot/pkg/util"
+	"eve-fit-bot/internal/models"
+	"eve-fit-bot/internal/util"
 	"fmt"
 	"log"
 
