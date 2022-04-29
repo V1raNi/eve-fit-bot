@@ -30,7 +30,7 @@ func main() {
 	log.Printf("%+v\n", config)
 
 	database := db.Init(config)
-	repo := db.New(database)
+	_ = db.New(database)
 
 	bot, err := telegramBotApi.NewBotAPI(config.Token)
 	if err != nil {

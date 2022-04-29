@@ -5,7 +5,11 @@ import (
 )
 
 type Config struct {
-	Port             string `mapstructure:"PORT"`
+	DbPort           string `mapstructure:"DB_PORT"`
+	DbHost           string `mapstructure:"DB_HOST"`
+	DbName           string `mapstructure:"DB_NAME"`
+	DbUser           string `mapstructure:"DB_USER"`
+	DbPassword       string `mapstructure:"DB_PASSWORD"`
 	ConnectionString string `mapstructure:"CONNECTION"`
 	Token            string `mapstructure:"TELEGRAM_TOKEN"`
 }
