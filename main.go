@@ -1,14 +1,12 @@
 package main
 
 import (
-	"errors"
-	"eve-fit-bot/internal/api"
 	"eve-fit-bot/internal/db"
 	"eve-fit-bot/internal/telegram"
 	"eve-fit-bot/internal/util"
+	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
-	"sync"
 )
 
 func main() {
@@ -20,21 +18,17 @@ func main() {
 	}
 	log.Printf("%+v\n", config)
 
-	database := db.Init(config)
-	_ = db.New(database)
-	var wg sync.WaitGroup
+	_ = db.Init(config)
 	service, err := telegram.New(config.Token, true)
 	if err != nil {
 		log.Fatal(err)
 	}
-	wg.Add(1)
 	go service.HandleMessages()
 
-	srv := api.NewServer("8088")
+	app := echo.New()
 
-	if err := srv.Run(); errors.Is(err, http.ErrServerClosed) {
-		log.Printf("HTTP server ListenAndServe: %v", err)
-	}
-
-	wg.Wait()
+	app.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+	app.Logger.Fatal(app.Start(":8080"))
 }
